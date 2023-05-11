@@ -1,4 +1,18 @@
-// date
+//time
+function formatTime(timestamp) {
+  let time = new Date(timestamp);
+  let hours = time.getHours();
+  if (hours < 10) {
+    hours = `0${hours}`;
+  }
+  let minutes = time.getMinutes();
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
+  return `${hours}:${minutes}`;
+}
+
+//date
 let now = new Date();
 let todaysDate = document.querySelector(".date");
 let date = now.getDate();
@@ -62,6 +76,9 @@ function showNewWeather(event, response) {
     document.querySelector(
       "h1"
     ).innerHTML = `${response.data.name}, ${response.data.sys.country}`;
+    document.querySelector(".local-time").innerHTML = formatTime(
+      response.data.dt * 1000
+    );
 
     //current weather
     document.querySelector(".current-weather-temperature").innerHTML =
@@ -84,17 +101,14 @@ function showNewWeather(event, response) {
     ).innerHTML = `${response.data.main.humidity}`;
 
     //sunrise and sunset
-    //todo- current show in UTC rather than local time
-    let sunriseTime = new Date(response.data.sys.sunrise * 1000);
-    document.querySelector(".sunrise").innerHTML =
-      sunriseTime.toLocaleString("en-US", { hour: "numeric" }).slice(0, -3) +
-      ":" +
-      sunriseTime.toLocaleString("en-US", { minute: "numeric" });
-    let sunsetTime = new Date(response.data.sys.sunset * 1000);
-    document.querySelector(".sunset").innerHTML =
-      sunsetTime.toLocaleString("en-US", { hour: "numeric" }).slice(0, -3) +
-      ":" +
-      sunsetTime.toLocaleString("en-US", { minute: "numeric" });
+    //todo- current show in city timezone rather than local time
+    //sunrise and sunset
+    document.querySelector(".sunrise").innerHTML = formatTime(
+      response.data.sys.sunrise * 1000
+    );
+    document.querySelector(".sunset").innerHTML = formatTime(
+      response.data.sys.sunset * 1000
+    );
     form.reset();
   }
 }
@@ -123,20 +137,13 @@ form.addEventListener("submit", showNewWeatherImperial);
 
 //weather and geolocation api work
 function showWeather(response) {
-  let unixLocalTime = new Date(response.data.dt * 1000);
-  let sunriseTime = new Date(response.data.sys.sunrise * 1000);
-  let sunsetTime = new Date(response.data.sys.sunset * 1000);
-
   //city and time
   document.querySelector(
     "h1"
   ).innerHTML = `${response.data.name}, ${response.data.sys.country}`;
-  document.querySelector(".local-time").innerHTML =
-    unixLocalTime.toLocaleString("en-US", { hour: "numeric" }).slice(0, -3) +
-    ":" +
-    unixLocalTime.toLocaleString("en-US", { minute: "numeric" }) +
-    " " +
-    unixLocalTime.toLocaleString("en-US", { hour: "numeric" }).slice(-2);
+  document.querySelector(".local-time").innerHTML = formatTime(
+    response.data.dt * 1000
+  );
 
   //current temp and weather description
   document.querySelector(".current-weather-temperature").innerHTML = Math.round(
@@ -160,14 +167,12 @@ function showWeather(response) {
   ).innerHTML = `${response.data.main.humidity}`;
 
   //sunrise and sunset
-  document.querySelector(".sunrise").innerHTML =
-    sunriseTime.toLocaleString("en-US", { hour: "numeric" }).slice(0, -3) +
-    ":" +
-    sunriseTime.toLocaleString("en-US", { minute: "numeric" });
-  document.querySelector(".sunset").innerHTML =
-    sunsetTime.toLocaleString("en-US", { hour: "numeric" }).slice(0, -3) +
-    ":" +
-    sunsetTime.toLocaleString("en-US", { minute: "numeric" });
+  document.querySelector(".sunrise").innerHTML = formatTime(
+    response.data.sys.sunrise * 1000
+  );
+  document.querySelector(".sunset").innerHTML = formatTime(
+    response.data.sys.sunset * 1000
+  );
 }
 
 function showWeatherImperial(response) {
