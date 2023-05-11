@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Weather App</title>
+    <meta charset="UTF-8" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+        rel="stylesheet" />
+    <link href="src/styles.css" />
+    <script src="https://kit.fontawesome.com/bb61764bd5.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div class="weather-app">
+        <div class="row city-search">
+            <div class="alignleft">
+                <h1 class="city"></h1>
+                <h2 class="local-time"></h2>
+                <h2 class="date"></h2>
+            </div>
+            <div class="alignright">
+                <div class="current-location-link-div"></div>
+                <form class="search-bar">
+                    <div class="col-3 form-group">
+                        <input type="text" class="form-control" id="city-input" placeholder="Enter city" />
+                    </div>
+                    <a class="current-location-link">Use current location</a>
+                </form>
+                <div class="search-button">
+                    <button type="button" class="btn">Search</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row current">
+            <div class="col-2">
+                <img id="current-weather-symbol" src="images/mostly-sunny.png" alt="Mostly sunny icon" />
+            </div>
+            <div class="col-3 current-weather-column">
+                <div class="current-weather-both">
+                    <h1 class="current-weather-temperature"></h1>
+                    <span class="units">
+                        <a href="#" id="celsius-link">°C</a> |
+                        <a href="#" id="fahrenheit-link">°F</a>
+                    </span>
+                </div>
+                <p class="current-weather">Mostly sunny</p>
+            </div>
+            <div class="col-1 vertical-line">
+                <i class="fa-solid fa-grip-lines-vertical"></i>
+            </div>
+            <div class="col-2">
+                <span class="current-values temp-max"></span>
+                <span>°C</span>
+                <p class="current-descriptions">High</p>
+                <span class="current-values temp-min"></span>
+                <span>°C</span>
+                <p class="current-descriptions">Low</p>
+            </div>
+            <div class="col-2">
+                <span class="current-values wind-speed"></span>
+                <span>mph</span>
+                <p class="current-descriptions">Wind</p>
+                <span class="current-values humidity"></span>
+                <span>%</span>
+                <p class="current-descriptions">Humidity</p>
+            </div>
+            <div class="col-2">
+                <span class="current-values sunrise"></span>
+                <span>AM</span>
+                <p class="current-descriptions">Sunrise</p>
+                <span class="current-values sunset"></span>
+                <span>PM</span>
+                <p class="current-descriptions">Sunset</p>
+            </div>
+        </div>
+        <h2>Today's weather</h2>
+        <div class="row today-weather">
+            <div class="col-2">
+                <div class="card today-card">
+                    <p class="card-text today-details">3 AM</p>
+                    <img src="images/mostly-sunny.png" alt="Mostly sunny icon" />
+                    <p class="card-text today-details">14°C</p>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="card today-card">
+                    <p class="card-text today-details">6 AM</p>
+                    <img src="images/mostly-sunny.png" alt="Mostly sunny icon" />
+                    <p class="card-text today-details">14°C</p>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="card today-card">
+                    <p class="card-text today-details">9 AM</p>
+                    <img src="images/mostly-sunny.png" alt="Mostly sunny icon" />
+                    <p class="card-text today-details">14°C</p>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="card today-card">
+                    <p class="card-text today-details">12 PM</p>
+                    <img src="images/mostly-sunny.png" alt="Mostly sunny icon" />
+                    <p class="card-text today-details">14°C</p>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="card today-card">
+                    <p class="card-text today-details">3 PM</p>
+                    <img src="images/mostly-sunny.png" alt="Mostly sunny icon" />
+                    <p class="card-text today-details">14°C</p>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="card today-card">
+                    <p class="card-text today-details">6 PM</p>
+                    <img src="images/mostly-sunny.png" alt="Mostly sunny icon" />
+                    <p class="card-text today-details">14°C</p>
+                </div>
+            </div>
+        </div>
+        <h2>Next 5 days</h2>
+        <div class="row">
+            <div class="col-2">
+                <p class="five-day-details">Fri</p>
+                <p class="five-day-details">3/3</p>
+            </div>
+            <div class="col-2 weather-image-container">
+                <img src="images/mostly-sunny.png" alt="Mostly sunny icon" />
+            </div>
+            <div class="col-2">
+                <p class="five-day-details">10°C</p>
+                <p class="five-day-details">Low</p>
+            </div>
+            <div class="col-2">
+                <p class="five-day-details">21°C</p>
+                <p class="five-day-details">High</p>
+            </div>
+            <div class="col-2">
+                <p class="five-day-details">12mph</p>
+                <p class="five-day-details">Wind</p>
+            </div>
+            <div class="col-2">
+                <p class="five-day-details">0%</p>
+                <p class="five-day-details">Rain</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <p class="five-day-details">Sat</p>
+                <p class="five-day-details">4/3</p>
+            </div>
+            <div class="col-2 weather-image-container">
+                <img src="images/mostly-sunny.png" alt="Mostly sunny icon" />
+            </div>
+            <div class="col-2">
+                <p class="five-day-details">10°C</p>
+                <p class="five-day-details">Low</p>
+            </div>
+            <div class="col-2">
+                <p class="five-day-details">21°C</p>
+                <p class="five-day-details">High</p>
+            </div>
+            <div class="col-2">
+                <p class="five-day-details">12mph</p>
+                <p class="five-day-details">Wind</p>
+            </div>
+            <div class="col-2">
+                <p class="five-day-details">0%</p>
+                <p class="five-day-details">Rain</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <p class="five-day-details">Sun</p>
+                <p class="five-day-details">5/3</p>
+            </div>
+            <div class="col-2 weather-image-container">
+                <img src="images/mostly-sunny.png" alt="Mostly sunny icon" />
+            </div>
+            <div class="col-2">
+                <p class="five-day-details">10°C</p>
+                <p class="five-day-details">Low</p>
+            </div>
+            <div class="col-2">
+                <p class="five-day-details">21°C</p>
+                <p class="five-day-details">High</p>
+            </div>
+            <div class="col-2">
+                <p class="five-day-details">12mph</p>
+                <p class="five-day-details">Wind</p>
+            </div>
+            <div class="col-2">
+                <p class="five-day-details">0%</p>
+                <p class="five-day-details">Rain</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <p class="five-day-details">Mon</p>
+                <p class="five-day-details">6/3</p>
+            </div>
+            <div class="col-2 weather-image-container">
+                <img src="images/mostly-sunny.png" alt="Mostly sunny icon" />
+            </div>
+            <div class="col-2">
+                <p class="five-day-details">10°C</p>
+                <p class="five-day-details">Low</p>
+            </div>
+            <div class="col-2">
+                <p class="five-day-details">21°C</p>
+                <p class="five-day-details">High</p>
+            </div>
+            <div class="col-2">
+                <p class="five-day-details">12mph</p>
+                <p class="five-day-details">Wind</p>
+            </div>
+            <div class="col-2">
+                <p class="five-day-details">0%</p>
+                <p class="five-day-details">Rain</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <p class="five-day-details">Tue</p>
+                <p class="five-day-details">7/3</p>
+            </div>
+            <div class="col-2 weather-image-container">
+                <img src="images/mostly-sunny.png" alt="Mostly sunny icon" />
+            </div>
+            <div class="col-2">
+                <p class="five-day-details">10°C</p>
+                <p class="five-day-details">Low</p>
+            </div>
+            <div class="col-2">
+                <p class="five-day-details">21°C</p>
+                <p class="five-day-details">High</p>
+            </div>
+            <div class="col-2">
+                <p class="five-day-details">12mph</p>
+                <p class="five-day-details">Wind</p>
+            </div>
+            <div class="col-2">
+                <p class="five-day-details">0%</p>
+                <p class="five-day-details">Rain</p>
+            </div>
+        </div>
+        <footer>This project was coded by Maddie Newby and is <a
+                href="https://github.com/maddie-newby/weather-app-project" target="_blank">open-sourced on GitHub</a>
+            and <a href="https://www.netlify.com/" target="_blank">hosted on Netlify</a></footer>
+    </div>
+
+    <script src="src/index.js"></script>
+</body>
+
+</html>

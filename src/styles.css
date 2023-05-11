@@ -1,0 +1,213 @@
+html {
+  background-image: url("../images/flower-background.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: none;
+}
+
+body {
+  margin: 20px;
+  font-family: "Open Sans", sans-serif;
+  border: 2px;
+  background-color: transparent;
+}
+
+.weather-app {
+  border: 1px solid #e49393;
+  padding: 30px;
+  border-radius: 10px;
+  border-width: 5px;
+  margin: 0 auto;
+  margin-top: 50px;
+  max-width: 75%;
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+.city {
+  padding-right: 0;
+}
+
+.alignleft {
+  max-width: fit-content;
+}
+
+.alignright {
+  width: 50%;
+  padding-left: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-items: baseline;
+}
+
+h1 {
+  margin: 0;
+  font-size: 50px;
+  max-width: fit-content;
+}
+
+h2 {
+  margin: 0;
+  max-width: fit-content;
+}
+
+.units {
+  font-size: small;
+  color: #e49393;
+}
+
+a {
+  color: #e49393;
+  transition: ease-in-out 150ms;
+}
+
+a:hover {
+  color: #eb455f;
+  cursor: pointer;
+}
+
+.city-search {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  padding: 10px 0;
+}
+
+input {
+  width: 100%;
+  flex-grow: 1;
+  margin: 10px;
+}
+
+.form-group {
+  display: flex;
+  width: 100%;
+}
+
+.search-bar {
+  padding-right: 0;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
+.current-location-link {
+  padding-left: 15px;
+  font-size: 15px;
+}
+
+.description-sections {
+  margin: 0, 5px;
+}
+
+.form-control:focus {
+  border-color: #eb455f;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset,
+    0 0 10px rgba(235, 69, 95, 0.9);
+  outline: 0 none;
+}
+
+.btn {
+  background-color: #e49393;
+  height: 45px;
+}
+
+.btn:hover {
+  background-color: #eb455f;
+}
+
+.search-button {
+  padding: 0 10px;
+}
+
+h2 {
+  font-size: 20px;
+  color: #5a6268;
+}
+
+.row {
+  padding-top: 10px;
+}
+
+#current-weather-symbol {
+  transform: scale(1.5);
+  padding-left: 20px;
+  align-items: center;
+}
+
+.current-weather {
+  font-size: 20px;
+  margin: 0;
+  color: black;
+  width: fit-content;
+}
+
+.current-weather-column {
+  padding-right: 0;
+  flex-wrap: none;
+}
+
+.current-weather-both {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.vertical-line {
+  text-align: center;
+  transform: scale(1, 8);
+  color: #5a6268;
+}
+
+.current {
+  align-items: center;
+  padding-bottom: 20px;
+}
+
+.current-descriptions {
+  font-size: 15px;
+  color: black;
+}
+
+.current-values {
+  margin: 0;
+  color: black;
+}
+
+.card {
+  align-items: center;
+}
+
+i.smaller-weather-image {
+  text-align: center;
+  font-size: 30px;
+}
+.today-card {
+  padding: 0 5px 0;
+  border-width: 3px;
+  border-color: #e49393;
+}
+
+.today-details {
+  margin: 0;
+  padding: 10px;
+}
+
+.today-weather {
+  padding-bottom: 20px;
+}
+
+div.weather-image-container {
+  align-self: center;
+}
+
+p {
+  margin: 0;
+  color: #5a6268;
+}
+
+.five-day-details {
+  font-size: 15px;
+}
