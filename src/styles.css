@@ -211,3 +211,12 @@ p {
 .five-day-details {
   font-size: 15px;
 }
+
+footer {
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.footer-link {
+  color: rgba(235, 69, 95, 0.9);
+}
