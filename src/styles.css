@@ -157,6 +157,11 @@ h2 {
   gap: 10px;
 }
 
+#celsius-link {
+  font-weight: bold;
+  text-decoration-thickness: 3px;
+}
+
 .vertical-line {
   text-align: center;
   transform: scale(1, 8);

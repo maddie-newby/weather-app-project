@@ -178,9 +178,9 @@ function showWeather(response) {
   );
 
   //current temp and weather description
-  document.querySelector(".current-weather-temperature").innerHTML = Math.round(
-    response.data.main.temp
-  );
+  celsiusTemperature = response.data.main.temp;
+  document.querySelector(".current-weather-temperature").innerHTML =
+    Math.round(celsiusTemperature);
   document.querySelector(".current-weather").innerHTML =
     response.data.weather[0].description.charAt(0).toUpperCase() +
     response.data.weather[0].description.slice(1);
@@ -249,8 +249,9 @@ function onPositionRetrieveIconSuccessfully(position, event) {
 retrievePosition();
 
 //use current location link
-let currentLocationLink = document.querySelector(".current-location-link");
-currentLocationLink.addEventListener("click", retrievePosition);
+document
+  .querySelector(".current-location-link")
+  .addEventListener("click", retrievePosition);
 
 function retrievePosition() {
   navigator.geolocation.getCurrentPosition(onPositionRetrieveSuccessfully);
@@ -259,24 +260,30 @@ function retrievePosition() {
 }
 
 //temperature conversion
+let celsiusTemperature = null;
 let currentTemperature = document.querySelector(".current-weather-temperature");
-let fahrenheitSelect = document.querySelector("#fahrenheit-link");
-let celsiusSelect = document.querySelector("#celsius-link");
+
 function convertToFarhenheit(event) {
   event.preventDefault();
-  currentTemperature.innerHTML = `25`;
-  fahrenheitSelect.style.fontWeight = "bold";
-  fahrenheitSelect.style.textDecorationThickness = "3px";
-  celsiusSelect.style.textDecorationThickness = "1.5px";
-  celsiusSelect.style.fontWeight = "normal";
+  currentTemperature.innerHTML = Math.round((celsiusTemperature * 9) / 5 + 32);
+  fahrenheitLink.style.fontWeight = "bold";
+  fahrenheitLink.style.textDecorationThickness = "3px";
+  celsiusLink.style.textDecorationThickness = "1.5px";
+  celsiusLink.style.fontWeight = "normal";
 }
+
 function convertToCelsius(event) {
   event.preventDefault();
-  currentTemperature.innerHTML = `11`;
-  celsiusSelect.style.fontWeight = "bold";
-  celsiusSelect.style.textDecorationThickness = "3px";
-  fahrenheitSelect.style.textDecorationThickness = "1.5px";
-  fahrenheitSelect.style.fontWeight = "normal";
+  currentTemperature.innerHTML = Math.round(celsiusTemperature);
+  celsiusLink.style.fontWeight = "bold";
+  celsiusLink.style.textDecorationThickness = "3px";
+  fahrenheitLink.style.textDecorationThickness = "1.5px";
+  fahrenheitLink.style.fontWeight = "normal";
 }
-fahrenheitSelect.addEventListener("click", convertToFarhenheit);
-celsiusSelect.addEventListener("click", convertToCelsius);
+
+document
+  .querySelector("#fahrenheit-link")
+  .addEventListener("click", convertToFarhenheit);
+document
+  .querySelector("#celsius-link")
+  .addEventListener("click", convertToCelsius);
