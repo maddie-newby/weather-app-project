@@ -20,7 +20,7 @@ function formatNewTime(timestamp, timezone) {
   if (timezone % 3600 === 0) {
     hours = hours + timezone / 3600 - 1;
   } else {
-    hours = hours + Math.ceil(timezone / 3600);
+    hours = hours + Math.floor(timezone / 3600) - 1;
     minutes = minutes + 30;
   }
   if (minutes >= 60) {
