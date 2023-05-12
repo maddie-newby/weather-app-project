@@ -12,6 +12,35 @@ function formatTime(timestamp) {
   return `${hours}:${minutes}`;
 }
 
+function formatNewTime(timestamp, timezone) {
+  let time = new Date(timestamp);
+  let hours = time.getHours();
+  let minutes = time.getMinutes();
+
+  if (timezone % 3600 === 0) {
+    hours = hours + timezone / 3600 - 1;
+  } else {
+    hours = hours + Math.floor(timezone / 3600);
+    minutes = minutes + 30;
+  }
+  if (minutes >= 60) {
+    hours = hours + 1;
+    minutes = minutes - 60;
+  }
+  if (hours > 23) {
+    hours = hours - 24;
+  } else if (hours < 0) {
+    hours = hours + 24;
+  }
+  if (hours < 10) {
+    hours = `0${hours}`;
+  }
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
+  return `${hours}:${minutes}`;
+}
+
 //date
 let now = new Date();
 let todaysDate = document.querySelector(".date");
@@ -76,8 +105,9 @@ function showNewWeather(event, response) {
     document.querySelector(
       "h1"
     ).innerHTML = `${response.data.name}, ${response.data.sys.country}`;
-    document.querySelector(".local-time").innerHTML = formatTime(
-      response.data.dt * 1000
+    document.querySelector(".local-time").innerHTML = formatNewTime(
+      response.data.dt * 1000,
+      response.data.timezone
     );
 
     //current weather
@@ -103,11 +133,13 @@ function showNewWeather(event, response) {
     //sunrise and sunset
     //todo- current show in city timezone rather than local time
     //sunrise and sunset
-    document.querySelector(".sunrise").innerHTML = formatTime(
-      response.data.sys.sunrise * 1000
+    document.querySelector(".sunrise").innerHTML = formatNewTime(
+      response.data.sys.sunrise * 1000,
+      response.data.timezone
     );
-    document.querySelector(".sunset").innerHTML = formatTime(
-      response.data.sys.sunset * 1000
+    document.querySelector(".sunset").innerHTML = formatNewTime(
+      response.data.sys.sunset * 1000,
+      response.data.timezone
     );
     form.reset();
   }
