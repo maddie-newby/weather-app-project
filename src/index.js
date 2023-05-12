@@ -186,12 +186,10 @@ function showWeather(response) {
     response.data.weather[0].description.slice(1);
 
   //max and min temp
-  document.querySelector(".temp-max").innerHTML = Math.round(
-    response.data.main.temp_max
-  );
-  document.querySelector(".temp-min").innerHTML = Math.round(
-    response.data.main.temp_min
-  );
+  maxTemperature = response.data.main.temp_max;
+  minTemperature = response.data.main.temp_min;
+  document.querySelector(".temp-max").innerHTML = Math.round(maxTemperature);
+  document.querySelector(".temp-min").innerHTML = Math.round(minTemperature);
 
   //humidity (wind speed is in imperical)
   document.querySelector(
@@ -261,24 +259,43 @@ function retrievePosition() {
 
 //temperature conversion
 let celsiusTemperature = null;
-let currentTemperature = document.querySelector(".current-weather-temperature");
+let maxTemperature = null;
+let minTemperature = null;
 
 function convertToFarhenheit(event) {
   event.preventDefault();
-  currentTemperature.innerHTML = Math.round((celsiusTemperature * 9) / 5 + 32);
-  fahrenheitLink.style.fontWeight = "bold";
-  fahrenheitLink.style.textDecorationThickness = "3px";
-  celsiusLink.style.textDecorationThickness = "1.5px";
-  celsiusLink.style.fontWeight = "normal";
+  document.querySelector(".current-weather-temperature").innerHTML = Math.round(
+    (celsiusTemperature * 9) / 5 + 32
+  );
+  document.querySelector(".temp-max").innerHTML = Math.round(
+    (maxTemperature * 9) / 5 + 32
+  );
+  document.querySelector(".temp-min").innerHTML = Math.round(
+    (maxTemperature * 9) / 5 + 32
+  );
+  document.querySelector(".high-temperature-unit").innerHTML = "°F";
+  document.querySelector(".low-temperature-unit").innerHTML = "°F";
+  celsiusLink.classList.remove("active");
+  fahrenheitLink.classList.add("active");
 }
 
 function convertToCelsius(event) {
   event.preventDefault();
-  currentTemperature.innerHTML = Math.round(celsiusTemperature);
-  celsiusLink.style.fontWeight = "bold";
-  celsiusLink.style.textDecorationThickness = "3px";
-  fahrenheitLink.style.textDecorationThickness = "1.5px";
-  fahrenheitLink.style.fontWeight = "normal";
+  let temperatureElement = document.querySelector(
+    ".current-weather-temperature"
+  );
+  temperatureElement.innerHTML = Math.round(celsiusTemperature);
+
+  document.querySelector(".temp-max").innerHTML = Math.round(
+    ((maxTemperature - 32) * 5) / 9
+  );
+  document.querySelector(".temp-min").innerHTML = Math.round(
+    ((minTemperature - 32) * 5) / 9
+  );
+  document.querySelector(".high-temperature-unit").innerHTML = "°C";
+  document.querySelector(".low-temperature-unit").innerHTML = "°C";
+  celsiusLink.classList.add("active");
+  fahrenheitLink.classList.remove("active");
 }
 
 document

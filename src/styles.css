@@ -157,7 +157,7 @@ h2 {
   gap: 10px;
 }
 
-#celsius-link {
+.active {
   font-weight: bold;
   text-decoration-thickness: 3px;
 }
