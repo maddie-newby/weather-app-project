@@ -13,31 +13,17 @@ function formatTime(timestamp) {
 }
 
 function formatNewTime(timestamp, timezone) {
-  let time = new Date(timestamp);
-  let hours = time.getHours();
-  let minutes = time.getMinutes();
+  let time = new Date(timestamp + timezone * 1000);
+  let hours = time.getHours() < 10 ? `0${time.getHours()}` : time.getHours();
+  let minutes =
+    time.getMinutes() < 10 ? `0${time.getMinutes()}` : `time.getMinutes()`;
 
-  if (timezone % 3600 === 0) {
-    hours = hours + timezone / 3600 - 1;
-  } else {
-    hours = hours + Math.floor(timezone / 3600) - 1;
-    minutes = minutes + 30;
-  }
-  if (minutes >= 60) {
-    hours = hours + 1;
-    minutes = minutes - 60;
-  }
   if (hours > 23) {
-    hours = hours - 24;
+    hours -= 24;
   } else if (hours < 0) {
-    hours = hours + 24;
+    hours += 24;
   }
-  if (hours < 10) {
-    hours = `0${hours}`;
-  }
-  if (minutes < 10) {
-    minutes = `0${minutes}`;
-  }
+
   return `${hours}:${minutes}`;
 }
 
@@ -45,7 +31,8 @@ function formatNewTime(timestamp, timezone) {
 let now = new Date();
 let todaysDate = document.querySelector(".date");
 let date = now.getDate();
-const nth = function (d) {
+
+const nth = (d) => {
   if (d > 3 && d < 21) return "th";
   switch (d % 10) {
     case 1:
@@ -58,6 +45,7 @@ const nth = function (d) {
       return "th";
   }
 };
+
 let days = [
   "Sunday",
   "Monday",
@@ -66,9 +54,9 @@ let days = [
   "Thursday",
   "Friday",
   "Saturday",
-  "Sunday",
 ];
 let day = days[now.getDay()];
+
 let months = [
   "January",
   "February",
@@ -84,7 +72,9 @@ let months = [
   "December",
 ];
 let month = months[now.getMonth()];
+
 let year = now.getFullYear();
+
 todaysDate.innerHTML = `${day} ${date}<sup>${nth(date)}</sup> ${month} ${year}`;
 
 // city input
@@ -94,6 +84,7 @@ function showNewWeather(event, response) {
   city.innerHTML = `${city.value}`;
   let apiKey = "2d96d64425dca1d6eda00d942a281c0d";
   let url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&units=metric&appid=${apiKey}`;
+
   if (!response) {
     axios.get(url).then((response) => {
       showNewWeather(event, response);
@@ -271,31 +262,36 @@ function convertToFarhenheit(event) {
     (maxTemperature * 9) / 5 + 32
   );
   document.querySelector(".temp-min").innerHTML = Math.round(
-    (maxTemperature * 9) / 5 + 32
+    (minTemperature * 9) / 5 + 32
   );
-  document.querySelector(".high-temperature-unit").innerHTML = "°F";
-  document.querySelector(".low-temperature-unit").innerHTML = "°F";
-  celsiusLink.classList.remove("active");
+
+  let temperatureUnits = document.querySelectorAll(".temperature-unit");
+  temperatureUnits.forEach((unit) => {
+    unit.innerHTML = "°F";
+  });
+
+  let celsiusLink = document.querySelector("#celsius-link");
+  let fahrenheitLink = document.querySelector("#fahrenheit-link");
   fahrenheitLink.classList.add("active");
+  celsiusLink.classList.remove("active");
 }
 
 function convertToCelsius(event) {
   event.preventDefault();
-  let temperatureElement = document.querySelector(
-    ".current-weather-temperature"
-  );
-  temperatureElement.innerHTML = Math.round(celsiusTemperature);
+  document.querySelector(".current-weather-temperature").innerHTML =
+    Math.round(celsiusTemperature);
+  document.querySelector(".temp-max").innerHTML = Math.round(maxTemperature);
+  document.querySelector(".temp-min").innerHTML = Math.round(minTemperature);
 
-  document.querySelector(".temp-max").innerHTML = Math.round(
-    ((maxTemperature - 32) * 5) / 9
-  );
-  document.querySelector(".temp-min").innerHTML = Math.round(
-    ((minTemperature - 32) * 5) / 9
-  );
-  document.querySelector(".high-temperature-unit").innerHTML = "°C";
-  document.querySelector(".low-temperature-unit").innerHTML = "°C";
-  celsiusLink.classList.add("active");
+  let temperatureUnits = document.querySelectorAll(".temperature-unit");
+  temperatureUnits.forEach((unit) => {
+    unit.innerHTML = "°C";
+  });
+
+  let celsiusLink = document.querySelector("#celsius-link");
+  let fahrenheitLink = document.querySelector("#fahrenheit-link");
   fahrenheitLink.classList.remove("active");
+  celsiusLink.classList.add("active");
 }
 
 document

@@ -160,6 +160,7 @@ h2 {
 .active {
   font-weight: bold;
   text-decoration-thickness: 3px;
+  color: #eb455f;
 }
 
 .vertical-line {
