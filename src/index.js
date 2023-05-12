@@ -181,6 +181,15 @@ function showWeatherImperial(response) {
   );
 }
 
+function showIcon(response) {
+  document
+    .querySelector("#icon")
+    .setAttribute("src", response.data.condition.icon_url);
+  document
+    .querySelector("#icon")
+    .setAttribute("alt", response.data.condition.description);
+}
+
 function onPositionRetrieveSuccessfully(position, event) {
   let apiKey = "2d96d64425dca1d6eda00d942a281c0d";
   let lat = position.coords.latitude;
@@ -197,6 +206,14 @@ function onPositionRetrieveSpeedSuccessfully(position, event) {
   axios.get(url).then(showWeatherImperial);
 }
 
+function onPositionRetrieveIconSuccessfully(position, event) {
+  let apiKey = "d84fo7b1165495bfa04e4513f7c437tf";
+  let lat = position.coords.latitude;
+  let lon = position.coords.longitude;
+  let url = `https://api.shecodes.io/weather/v1/current?lon=${lon}&lat=${lat}&key=${apiKey}`;
+  axois.get(url).then(showIcon);
+}
+
 retrievePosition();
 
 //use current location link
@@ -206,6 +223,7 @@ currentLocationLink.addEventListener("click", retrievePosition);
 function retrievePosition() {
   navigator.geolocation.getCurrentPosition(onPositionRetrieveSuccessfully);
   navigator.geolocation.getCurrentPosition(onPositionRetrieveSpeedSuccessfully);
+  navigator.geolocation.getCurrentPosition(onPositionRetrieveIconSuccessfully);
 }
 
 //temperature conversion
