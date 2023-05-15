@@ -257,12 +257,16 @@ function displayForecast(response) {
         }" class="forecast-icon" />
         </div>
         <div class="col-2 five-day-details">
-          <span>${Math.round(forecastDay.temperature.maximum)}</span>
+          <span class="forecast-temp">${Math.round(
+            forecastDay.temperature.maximum
+          )}</span>
           <span class="temperature-unit">°C</span>
           <p>High</p>
         </div>
         <div class="col-2 five-day-details">
-          <span>${Math.round(forecastDay.temperature.minimum)}</span>
+          <span class="forecast-temp">${Math.round(
+            forecastDay.temperature.minimum
+          )}</span>
           <span class="temperature-unit">°C</span>
           <p>Low</p>
         </div>
@@ -328,6 +332,11 @@ function convertToFarhenheit(event) {
     (minTemperature * 9) / 5 + 32
   );
 
+  let forecastTemperatures = document.querySelectorAll(".forecast-temp");
+  forecastTemperatures.forEach((unit) => {
+    unit.innerHTML = `${Math.round((unit.innerHTML * 9) / 5 + 32)}`;
+  });
+
   let temperatureUnits = document.querySelectorAll(".temperature-unit");
   temperatureUnits.forEach((unit) => {
     unit.innerHTML = "°F";
@@ -345,6 +354,11 @@ function convertToCelsius(event) {
     Math.round(celsiusTemperature);
   document.querySelector(".temp-max").innerHTML = Math.round(maxTemperature);
   document.querySelector(".temp-min").innerHTML = Math.round(minTemperature);
+
+  let forecastTemperatures = document.querySelectorAll(".forecast-temp");
+  forecastTemperatures.forEach((unit) => {
+    unit.innerHTML = `${Math.round(((unit.innerHTML - 32) * 5) / 9)}`;
+  });
 
   let temperatureUnits = document.querySelectorAll(".temperature-unit");
   temperatureUnits.forEach((unit) => {
