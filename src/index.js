@@ -86,6 +86,10 @@ function formatDay(timestamp) {
   return days[day];
 }
 
+function formatSpeed(speed) {
+  return Math.round(speed * 2.237);
+}
+
 // city input
 function showNewWeather(event, response) {
   event.preventDefault();
@@ -125,7 +129,10 @@ function showNewWeather(event, response) {
       response.data.main.temp_min
     );
 
-    //humidity (wind speed is in impirical)
+    //wind speed and humidity
+    document.querySelector(".wind-speed").innerHTML = formatSpeed(
+      response.data.wind.speed
+    );
     document.querySelector(
       ".humidity"
     ).innerHTML = `${response.data.main.humidity}`;
@@ -140,24 +147,6 @@ function showNewWeather(event, response) {
     document.querySelector(".sunset").innerHTML = formatNewTime(
       response.data.sys.sunset * 1000,
       response.data.timezone
-    );
-    form.reset();
-  }
-}
-
-function showNewWeatherImperial(event, response) {
-  event.preventDefault();
-  let city = document.querySelector("#city-input").value;
-  let apiKey = "2d96d64425dca1d6eda00d942a281c0d";
-  let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
-  if (!response) {
-    axios.get(url).then((response) => {
-      showNewWeatherImperial(event, response);
-      return;
-    });
-  } else {
-    document.querySelector(".wind-speed").innerHTML = Math.round(
-      response.data.wind.speed
     );
     form.reset();
   }
@@ -185,12 +174,11 @@ function showNewIcon(event, response) {
 
 let form = document.querySelector("form");
 form.addEventListener("submit", showNewWeather);
-form.addEventListener("submit", showNewWeatherImperial);
 form.addEventListener("submit", showNewIcon);
 
 function getForecast(coordinates) {
-  let apiKey = "b1a8336ff1e05b64da5625e4158fbea3";
-  let apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
+  let apiKey = "d84fo7b1165495bfa04e4513f7c437tf";
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lon=${coordinates.lon}&lat=${coordinates.lat}&key=${apiKey}`;
   axios.get(apiUrl).then(displayForecast);
 }
 
@@ -218,7 +206,10 @@ function showWeather(response) {
   document.querySelector(".temp-max").innerHTML = Math.round(maxTemperature);
   document.querySelector(".temp-min").innerHTML = Math.round(minTemperature);
 
-  //humidity (wind speed is in imperical)
+  //wind speed and humidity
+  document.querySelector(".wind-speed").innerHTML = formatSpeed(
+    response.data.wind.speed
+  );
   document.querySelector(
     ".humidity"
   ).innerHTML = `${response.data.main.humidity}`;
@@ -231,13 +222,7 @@ function showWeather(response) {
     response.data.sys.sunset * 1000
   );
 
-  getForecast(response.data.coords);
-}
-
-function showWeatherImperial(response) {
-  document.querySelector(".wind-speed").innerHTML = Math.round(
-    response.data.wind.speed
-  );
+  getForecast(response.data.coord);
 }
 
 function showIcon(response) {
@@ -261,29 +246,33 @@ function displayForecast(response) {
       forecastHTML =
         forecastHTML +
         `
-      <div class="row">
-        <div class="col-2">
-          <p class="five-day-details">${formatDay(forecastDay.dt)}</p>
-          <p class="five-day-details">3/3</p>
+      <div class="row forecast-row">
+        <div class="col-2 five-day-details">
+          <p>${formatDay(forecastDay.time)}</p>
+          <p>3/3</p>
         </div>
-        <div class="col-2 weather-image-container">
-          <img src="images/mostly-sunny.png" alt="Mostly sunny icon" />
+        <div class="col-2 five-day-details">
+          <img src="${forecastDay.condition.icon_url}" alt="${
+          forecastDay.condition.description
+        }" class="forecast-icon" />
         </div>
-        <div class="col-2">
-          <p class="five-day-details">${Math.round(forecastDay.temp.max)} °C</p>
-          <p class="five-day-details">High</p>
+        <div class="col-2 five-day-details">
+          <span>${Math.round(forecastDay.temperature.maximum)}</span>
+          <span class="temperature-unit">°C</span>
+          <p>High</p>
         </div>
-        <div class="col-2">
-          <p class="five-day-details">${Math.round(forecastDay.temp.min)} °C</p>
-          <p class="five-day-details">Low</p>
+        <div class="col-2 five-day-details">
+          <span>${Math.round(forecastDay.temperature.minimum)}</span>
+          <span class="temperature-unit">°C</span>
+          <p>Low</p>
         </div>
-        <div class="col-2">
-          <p class="five-day-details">12mph</p>
-          <p class="five-day-details">Wind</p>
+        <div class="col-2 five-day-details">
+          <p>${formatSpeed(forecastDay.wind.speed)} mph</p>
+          <p>Wind</p>
         </div>
-        <div class="col-2">
-          <p class="five-day-details">${forecastDay.humidity} %</p>
-          <p class="five-day-details">Humidity</p>
+        <div class="col-2 five-day-details">
+          <p>${forecastDay.temperature.humidity} %</p>
+          <p>Humidity</p>
         </div>
       </div>
       `;
@@ -300,14 +289,6 @@ function onPositionRetrieveSuccessfully(position, event) {
   let lon = position.coords.longitude;
   let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
   axios.get(url).then(showWeather);
-}
-
-function onPositionRetrieveSpeedSuccessfully(position, event) {
-  let apiKey = "2d96d64425dca1d6eda00d942a281c0d";
-  let lat = position.coords.latitude;
-  let lon = position.coords.longitude;
-  let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`;
-  axios.get(url).then(showWeatherImperial);
 }
 
 function onPositionRetrieveIconSuccessfully(position, event) {
@@ -327,7 +308,6 @@ document
 
 function retrievePosition() {
   navigator.geolocation.getCurrentPosition(onPositionRetrieveSuccessfully);
-  navigator.geolocation.getCurrentPosition(onPositionRetrieveSpeedSuccessfully);
   navigator.geolocation.getCurrentPosition(onPositionRetrieveIconSuccessfully);
 }
 

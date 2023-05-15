@@ -11,6 +11,7 @@ body {
   font-family: "Open Sans", sans-serif;
   border: 2px;
   background-color: transparent;
+  color: #5a6268;
 }
 
 .weather-app {
@@ -45,6 +46,7 @@ h1 {
   margin: 0;
   font-size: 50px;
   max-width: fit-content;
+  color: black;
 }
 
 h2 {
@@ -126,7 +128,6 @@ input {
 
 h2 {
   font-size: 20px;
-  color: #5a6268;
 }
 
 .row {
@@ -142,8 +143,8 @@ h2 {
 .current-weather {
   font-size: 20px;
   margin: 0;
-  color: black;
   width: fit-content;
+  color: black;
 }
 
 .current-weather-column {
@@ -166,7 +167,6 @@ h2 {
 .vertical-line {
   text-align: center;
   transform: scale(1, 8);
-  color: #5a6268;
 }
 
 .current {
@@ -176,12 +176,10 @@ h2 {
 
 .current-descriptions {
   font-size: 15px;
-  color: black;
 }
 
 .current-values {
   margin: 0;
-  color: black;
 }
 
 .card {
@@ -213,7 +211,6 @@ div.weather-image-container {
 
 p {
   margin: 0;
-  color: #5a6268;
 }
 
 .five-day-details {
@@ -227,4 +224,14 @@ footer {
 
 .footer-link {
   color: #cea330;
+}
+
+.forecast-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.forecast-icon {
+  width: 75px;
 }
