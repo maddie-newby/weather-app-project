@@ -78,6 +78,14 @@ let year = now.getFullYear();
 
 todaysDate.innerHTML = `${day} ${date}<sup>${nth(date)}</sup> ${month} ${year}`;
 
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let day = date.getDay();
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  return days[day];
+}
+
 // city input
 function showNewWeather(event, response) {
   event.preventDefault();
@@ -181,7 +189,7 @@ form.addEventListener("submit", showNewWeatherImperial);
 form.addEventListener("submit", showNewIcon);
 
 function getForecast(coordinates) {
-  let apiKey = `b1a8336ff1e05b64da5625e4158fbea3`;
+  let apiKey = "b1a8336ff1e05b64da5625e4158fbea3";
   let apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
   axios.get(apiUrl).then(displayForecast);
 }
@@ -242,30 +250,31 @@ function showIcon(response) {
 }
 
 function displayForecast(response) {
-  let forecastElement = document.querySelector("#forecast");
+  let forecast = response.data.daily;
 
-  let days = ["Thu", "Fri", "Sat", "Sun", "Mon"];
+  let forecastElement = document.querySelector("#forecast");
 
   let forecastHTML = `<div class="row">`;
 
-  days.forEach(function (day) {
-    forecastHTML =
-      forecastHTML +
-      `
+  forecast.forEach(function (forecastDay, index) {
+    if (index < 5) {
+      forecastHTML =
+        forecastHTML +
+        `
       <div class="row">
         <div class="col-2">
-          <p class="five-day-details">${day}</p>
+          <p class="five-day-details">${formatDay(forecastDay.dt)}</p>
           <p class="five-day-details">3/3</p>
         </div>
         <div class="col-2 weather-image-container">
           <img src="images/mostly-sunny.png" alt="Mostly sunny icon" />
         </div>
         <div class="col-2">
-          <p class="five-day-details">21°C</p>
+          <p class="five-day-details">${Math.round(forecastDay.temp.max)} °C</p>
           <p class="five-day-details">High</p>
         </div>
         <div class="col-2">
-          <p class="five-day-details">10°C</p>
+          <p class="five-day-details">${Math.round(forecastDay.temp.min)} °C</p>
           <p class="five-day-details">Low</p>
         </div>
         <div class="col-2">
@@ -273,11 +282,12 @@ function displayForecast(response) {
           <p class="five-day-details">Wind</p>
         </div>
         <div class="col-2">
-          <p class="five-day-details">0%</p>
-          <p class="five-day-details">Rain</p>
+          <p class="five-day-details">${forecastDay.humidity} %</p>
+          <p class="five-day-details">Humidity</p>
         </div>
       </div>
-    `;
+      `;
+    }
   });
 
   forecastHTML = forecastHTML + `</div>`;
@@ -373,5 +383,3 @@ document
 document
   .querySelector("#celsius-link")
   .addEventListener("click", convertToCelsius);
-
-displayForecast();
