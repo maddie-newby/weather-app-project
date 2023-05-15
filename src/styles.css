@@ -1,9 +1,8 @@
 html {
-  background-image: url("../images/flower-background.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: none;
+  background-color: rgb(138, 208, 248, 0.6);
 }
 
 body {
@@ -15,15 +14,16 @@ body {
 }
 
 .weather-app {
-  border: 1px solid #e49393;
+  box-shadow: 5px 5px 10px;
   padding: 30px;
   border-radius: 10px;
   border-width: 5px;
   margin: 0 auto;
   margin: 50px auto;
   width: 50%;
+  min-width: 700px;
   max-width: 1000px;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .city {
@@ -117,10 +117,12 @@ input {
 .btn {
   background-color: #e49393;
   height: 45px;
+  color: black;
 }
 
 .btn:hover {
   background-color: #eb455f;
+  color: black;
 }
 
 .search-button {
@@ -171,7 +173,7 @@ h2 {
 
 .current {
   align-items: center;
-  padding-bottom: 20px;
+  padding: 30px 0;
 }
 
 .current-descriptions {
@@ -231,7 +233,7 @@ footer {
 }
 
 .footer-link {
-  color: #cea330;
+  color: #eb455f;
 }
 
 .forecast-row {
