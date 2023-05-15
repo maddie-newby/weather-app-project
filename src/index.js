@@ -235,6 +235,11 @@ function showIcon(response) {
 }
 
 function displayForecast(response) {
+  const options = {
+    day: "2-digit",
+    month: "2-digit",
+  };
+
   let forecast = response.data.daily;
 
   let forecastElement = document.querySelector("#forecast");
@@ -249,7 +254,11 @@ function displayForecast(response) {
       <div class="row forecast-row">
         <div class="col-2 five-day-details">
           <p>${formatDay(forecastDay.time)}</p>
-          <p>3/3</p>
+          <p>${new Date(forecastDay.time * 1000).toLocaleString("en-GB", {
+            day: "2-digit",
+          })}/${new Date(forecastDay.time * 1000).toLocaleString("en-GB", {
+          month: "2-digit",
+        })}</p>
         </div>
         <div class="col-2 five-day-details">
           <img src="${forecastDay.condition.icon_url}" alt="${
