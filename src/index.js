@@ -345,7 +345,9 @@ function convertToFarhenheit(event) {
   let celsiusLink = document.querySelector("#celsius-link");
   let fahrenheitLink = document.querySelector("#fahrenheit-link");
   fahrenheitLink.classList.add("active");
+  fahrenheitLink.style.pointerEvents = "none";
   celsiusLink.classList.remove("active");
+  celsiusLink.style.pointerEvents = "auto";
 }
 
 function convertToCelsius(event) {
@@ -368,7 +370,9 @@ function convertToCelsius(event) {
   let celsiusLink = document.querySelector("#celsius-link");
   let fahrenheitLink = document.querySelector("#fahrenheit-link");
   fahrenheitLink.classList.remove("active");
+  fahrenheitLink.style.pointerEvents = "auto";
   celsiusLink.classList.add("active");
+  celsiusLink.style.pointerEvents = "none";
 }
 
 document
