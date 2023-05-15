@@ -14,9 +14,10 @@ function formatTime(timestamp) {
 
 function formatNewTime(timestamp, timezone) {
   let time = new Date(timestamp + timezone * 1000);
-  let hours = time.getHours() < 10 ? `0${time.getHours()}` : time.getHours();
+  let hours =
+    time.getHours() < 10 ? `0${time.getHours()}` : `${time.getHours()}`;
   let minutes =
-    time.getMinutes() < 10 ? `0${time.getMinutes()}` : `time.getMinutes()`;
+    time.getMinutes() < 10 ? `0${time.getMinutes()}` : `${time.getMinutes()}`;
 
   if (hours > 23) {
     hours -= 24;
@@ -154,9 +155,30 @@ function showNewWeatherImperial(event, response) {
   }
 }
 
+function showNewIcon(event, response) {
+  event.preventDefault();
+  let city = document.querySelector("#city-input").value;
+  let apiKey = "d84fo7b1165495bfa04e4513f7c437tf";
+  let url = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}`;
+  if (!response) {
+    axios.get(url).then((response) => {
+      showNewIcon(event, response);
+      return;
+    });
+  } else {
+    document
+      .querySelector("#icon")
+      .setAttribute("src", response.data.condition.icon_url);
+    document
+      .querySelector("#icon")
+      .setAttribute("alt", response.data.condition.description);
+  }
+}
+
 let form = document.querySelector("form");
 form.addEventListener("submit", showNewWeather);
 form.addEventListener("submit", showNewWeatherImperial);
+form.addEventListener("submit", showNewIcon);
 
 //weather and geolocation api work
 function showWeather(response) {
@@ -232,7 +254,7 @@ function onPositionRetrieveIconSuccessfully(position, event) {
   let lat = position.coords.latitude;
   let lon = position.coords.longitude;
   let url = `https://api.shecodes.io/weather/v1/current?lon=${lon}&lat=${lat}&key=${apiKey}`;
-  axois.get(url).then(showIcon);
+  axios.get(url).then(showIcon);
 }
 
 retrievePosition();
