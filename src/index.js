@@ -104,6 +104,9 @@ function showNewWeather(event, response) {
       return;
     });
   } else {
+    celsiusTemperature = response.data.main.temp;
+    maxTemperature = response.data.main.temp_max;
+    minTemperature = response.data.main.temp_min;
     //city
     //todo- time alwaus shows local time
     document.querySelector(
