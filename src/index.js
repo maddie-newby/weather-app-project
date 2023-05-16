@@ -172,9 +172,83 @@ function showNewIcon(event, response) {
   }
 }
 
+function displayNewForecast(event, response) {
+  event.preventDefault();
+  let city = document.querySelector("#city-input").value;
+  let apiKey = "d84fo7b1165495bfa04e4513f7c437tf";
+  let url = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}`;
+  if (!response) {
+    axios.get(url).then((response) => {
+      displayNewForecast(event, response);
+      return;
+    });
+  } else {
+    const options = {
+      day: "2-digit",
+      month: "2-digit",
+    };
+
+    let forecast = response.data.daily;
+
+    let forecastElement = document.querySelector("#forecast");
+
+    let forecastHTML = `<div class="row">`;
+
+    forecast.forEach(function (forecastDay, index) {
+      if (index < 6 && index > 0) {
+        forecastHTML =
+          forecastHTML +
+          `
+      <div class="row forecast-row">
+        <div class="col-2 five-day-details">
+          <p>${formatDay(forecastDay.time)}</p>
+          <p>${new Date(forecastDay.time * 1000).toLocaleString("en-GB", {
+            day: "2-digit",
+          })}/${new Date(forecastDay.time * 1000).toLocaleString("en-GB", {
+            month: "2-digit",
+          })}</p>
+        </div>
+        <div class="col-2 five-day-details">
+          <img src="${forecastDay.condition.icon_url}" alt="${
+            forecastDay.condition.description
+          }" class="forecast-icon" />
+        </div>
+        <div class="col-2 five-day-details">
+          <span class="forecast-temp">${Math.round(
+            forecastDay.temperature.maximum
+          )}</span>
+          <span class="temperature-unit">°C</span>
+          <p>High</p>
+        </div>
+        <div class="col-2 five-day-details">
+          <span class="forecast-temp">${Math.round(
+            forecastDay.temperature.minimum
+          )}</span>
+          <span class="temperature-unit">°C</span>
+          <p>Low</p>
+        </div>
+        <div class="col-2 five-day-details">
+          <p>${formatSpeed(forecastDay.wind.speed)} mph</p>
+          <p>Wind</p>
+        </div>
+        <div class="col-2 five-day-details">
+          <p>${forecastDay.temperature.humidity} %</p>
+          <p>Humidity</p>
+        </div>
+      </div>
+      `;
+      }
+    });
+
+    forecastHTML = forecastHTML + `</div>`;
+    forecastElement.innerHTML = forecastHTML;
+  }
+}
+
 let form = document.querySelector("form");
 form.addEventListener("submit", showNewWeather);
 form.addEventListener("submit", showNewIcon);
+form.addEventListener("submit", displayNewForecast);
 
 function getForecast(coordinates) {
   let apiKey = "d84fo7b1165495bfa04e4513f7c437tf";
