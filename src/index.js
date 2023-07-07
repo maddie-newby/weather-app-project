@@ -186,11 +186,6 @@ function displayNewForecast(event, response) {
       return;
     });
   } else {
-    const options = {
-      day: "2-digit",
-      month: "2-digit",
-    };
-
     let forecast = response.data.daily;
 
     let forecastElement = document.querySelector("#forecast");
